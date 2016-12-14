@@ -141,7 +141,7 @@
         }
 
         function stripAngleBracketTags(input) {
-            var tmp = document.implementation.createHTMLDocument("").body;
+            var tmp = document.implementation.createHTMLDocument().body;
             tmp.innerHTML = input.trim();
             var result = tmp.textContent || tmp.innerText || "";
             setResult(result);
