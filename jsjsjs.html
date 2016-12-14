@@ -180,6 +180,15 @@
             setResult(result);
         }
 
+        function addLeadingAngleBracketAndSpaceToEachLine(input) {
+            var arrayOfLines = input.split(/\r?\n/);
+            arrayOfLines.forEach(function (line, index, arrayOfLines) {
+                arrayOfLines[index] = "> " + line;
+            });
+            var result = arrayOfLines.join('\n');
+            setResult(result);
+        }
+
 
     </script>
 </head>
@@ -259,6 +268,10 @@
                                         Strip HTML tags <input type="button" class="btn btn-primary" onclick="stripAngleBracketTags(document.getElementById('text').value);" value="Strip" />
                                     </p>
                                     Convert C# doc comment to plain text <input type="button" class="btn btn-primary" onclick="convertDocCommentToParagraph(document.getElementById('text').value);" value="Convert" />
+                                </div>
+
+                                <div class="well well-sm">
+                                    Prefix each line with <code>&gt; </code><input type="button" class="btn btn-primary" onclick="addLeadingAngleBracketAndSpaceToEachLine(document.getElementById('text').value);" value="Quote" />
                                 </div>
 
                             </div>
