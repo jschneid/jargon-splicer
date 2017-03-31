@@ -123,8 +123,11 @@
         function convertDocCommentToParagraph(input) {
             var result = input;
             // Strip "<summary>", "</summary>"
-            result = result.replace('<summary>', '');
-            result = result.replace('</summary>', '');
+            result = result.replace(/<summary>/g, '');
+            result = result.replace(/<\/summary>/g, '');
+            // Strip "<para>", "</para>"
+            result = result.replace(/<para>/g, '');
+            result = result.replace(/<\/para>/g, '');
             // Strip "///"
             result = result.replace(/\/\/\//g, '');
             // Strip extra consecutive spaces
@@ -138,6 +141,75 @@
             result = result.replace(/\n[ \t]+/g, '\n');
             result = result.trim();
             setResult(result);
+        }
+
+        function convertToCSharpDocComment(input, lineLength) {
+
+            var outputLines = [];
+            outputLines.push("/// <summary>");
+            outputLines.push("/// ");
+            var outputLineIndex = 1;
+            var paragraphStarted = false;
+
+            var inputLines = input.split(/\r?\n/);
+            for (var inputLineIndex = 0; inputLineIndex < inputLines.length; inputLineIndex++) {
+
+                var inputLineWords = splitStringWithCSharpDocStuffRemoved(inputLines[inputLineIndex]);
+
+                if (inputLineWords.length == 0 && inputLineIndex > 0 && inputLineIndex + 1 < inputLines.length) {
+
+                    if (paragraphStarted) {
+                        outputLines[outputLineIndex] = outputLines[outputLineIndex] + "</para>";
+                    }
+
+                    outputLines.push("///");
+                    outputLines.push("/// <para> ");
+                    outputLineIndex += 2;
+                    paragraphStarted = true;
+                }
+                else {
+                    var currentLineLength = 0;
+                    for (var wordIndex = 0; wordIndex < inputLineWords.length; wordIndex++) {
+
+                        outputLines[outputLineIndex] = outputLines[outputLineIndex] + inputLineWords[wordIndex] + " ";
+
+                        if (wordIndex + 1 < inputLineWords.length) {
+                            if (outputLines[outputLineIndex].length + inputLineWords[wordIndex + 1].length > lineLength) {
+                                outputLines.push("/// ");
+                                outputLineIndex++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (paragraphStarted) {
+                outputLines[outputLineIndex] = outputLines[outputLineIndex] + "</para>";
+            }
+
+            outputLines.push("/// </summary> ");
+
+            var result = outputLines.join('\n');
+            setResult(result);
+        }
+
+        function splitStringWithCSharpDocStuffRemoved(input) {
+            // Split the input line into whitespace-separated words
+            var inputWords = input.match(/\S+/g) || [];
+
+            var nonDocCommentWords = [];
+            for (var inputWordIndex = 0; inputWordIndex < inputWords.length; inputWordIndex++) {
+                if (inputWords[inputWordIndex] !== '///'
+                    && inputWords[inputWordIndex] !== '<summary>'
+                    && inputWords[inputWordIndex] !== '</summary>'
+                    && inputWords[inputWordIndex] !== '<para>'
+                    && inputWords[inputWordIndex] !== '</para>') {
+                    nonDocCommentWords.push(inputWords[inputWordIndex]);
+                }
+            }
+            var result = nonDocCommentWords;
+
+            return result;
         }
 
         function stripAngleBracketTags(input) {
@@ -267,7 +339,12 @@
                                     <p>
                                         Strip HTML tags <input type="button" class="btn btn-primary" onclick="stripAngleBracketTags(document.getElementById('text').value);" value="Strip" />
                                     </p>
-                                    Convert C# doc comment to plain text <input type="button" class="btn btn-primary" onclick="convertDocCommentToParagraph(document.getElementById('text').value);" value="Convert" />
+                                    <p>
+                                        Convert C# doc comment to plain text <input type="button" class="btn btn-primary" onclick="convertDocCommentToParagraph(document.getElementById('text').value);" value="Convert" />
+                                    </p>
+                                    Convert text to C# doc comment with line length: 
+                                    <input type="text" value="180" id="cSharpDocCommentLineLength" size="3" />
+                                    <input type="button" class="btn btn-primary" onclick="convertToCSharpDocComment(document.getElementById('text').value, document.getElementById('cSharpDocCommentLineLength').value)" value="Convert" />
                                 </div>
 
                                 <div class="well well-sm">
