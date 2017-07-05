@@ -261,6 +261,22 @@
             setResult(result);
         }
 
+        function convertCommaSeparatedParamListToCStyleDebugOutputString(input) {
+            var whitespaceAfterCommaRemoved = input.replace(/,\s+/g, ',');
+            var csvArray = whitespaceAfterCommaRemoved.split(',');
+            var result = "";
+
+            for (var i = 0; i < csvArray.length; i++) {
+                result = result + csvArray[i] + ': [" + ' + csvArray[i] + ' + "]'
+
+                if (i < csvArray.length - 1) {
+                    result = result + ', ';
+                }
+            }
+
+            setResult(result);
+        }
+
 
     </script>
 </head>
@@ -289,14 +305,14 @@
                         Line count: <span id="lineCount" class="big"></span>
                         <br />
 
-                        <div class="well well-sm">
+                        <fieldset class="well well-sm">
                             <label for="stringToSearchFor">Substring:</label>
                             <input type="text" id="stringToSearchFor" oninput="updateStats()" />
                             <br />
                             Occurrence count: <strong><span id="occurrenceCount" class="big"></span></strong>
                             <br />
                             Including overlaps: <strong><span id="occurrenceCountWithOverlaps" class="big"></span></strong>
-                        </div>
+                        </fieldset>
                     </div>
                 </div>
             </div>
@@ -311,15 +327,17 @@
                         <div class="row">
                             <div class="col-md-6">
 
-                                <div class="well well-sm">
+                                <fieldset class="well well-sm">
+                                    <legend>Lists</legend>
                                     <p>
                                         Convert whitespace-separated string to comma-separated
                                         <input type="button" class="btn btn-primary" onclick="replaceWhitespaceWithComma(document.getElementById('text').value);" value="Convert" />
                                     </p>
                                     Sort comma-separated <input type="button" class="btn btn-primary" onclick="sortCsv(document.getElementById('text').value);" value="Sort" />
-                                </div>
+                                </fieldset>
 
-                                <div class="well well-sm">
+                                <fieldset class="well well-sm">
+                                    <legend>Paragraphs</legend>
                                     <p>
                                         Remove duplicate blank lines <input type="button" class="btn btn-primary" onclick="removeDuplicateBlankLines(document.getElementById('text').value);" value="Remove" />
                                     </p>
@@ -330,26 +348,34 @@
                                         Trim each line <input type="button" class="btn btn-primary" onclick="trimLines(document.getElementById('text').value);" value="Trim" />
                                     </p>
                                     Join adjacent lines <input type="button" class="btn btn-primary" onclick="joinAdjacentLines(document.getElementById('text').value);" value="Join" />
-                                </div>
+                                </fieldset>
 
                             </div>
                             <div class="col-md-6">
 
-                                <div class="well well-sm">
+                                <fieldset class="well well-sm">
+                                    <legend>Programming</legend>
                                     <p>
                                         Strip HTML tags <input type="button" class="btn btn-primary" onclick="stripAngleBracketTags(document.getElementById('text').value);" value="Strip" />
                                     </p>
                                     <p>
                                         Convert C# doc comment to plain text <input type="button" class="btn btn-primary" onclick="convertDocCommentToParagraph(document.getElementById('text').value);" value="Convert" />
                                     </p>
-                                    Convert text to C# doc comment with line length: 
-                                    <input type="text" value="180" id="cSharpDocCommentLineLength" size="3" />
-                                    <input type="button" class="btn btn-primary" onclick="convertToCSharpDocComment(document.getElementById('text').value, document.getElementById('cSharpDocCommentLineLength').value)" value="Convert" />
-                                </div>
+                                    <p>
+                                        Convert text to C# doc comment with line length:
+                                        <input type="text" value="180" id="cSharpDocCommentLineLength" size="3" />
+                                        <input type="button" class="btn btn-primary" onclick="convertToCSharpDocComment(document.getElementById('text').value, document.getElementById('cSharpDocCommentLineLength').value)" value="Convert" />
+                                    </p>
 
-                                <div class="well well-sm">
-                                    Prefix each line with <code>&gt; </code> <input type="button" class="btn btn-primary" onclick="addLeadingAngleBracketAndSpaceToEachLine(document.getElementById('text').value);" value="Quote" />
-                                </div>
+                                    Convert CSV param list to C-style debug output string
+                                    <input type="button" class="btn btn-primary" onclick="convertCommaSeparatedParamListToCStyleDebugOutputString(document.getElementById('text').value);" value="Convert" />
+
+                                </fieldset>
+
+                                <fieldset class="well well-sm">
+                                    <legend>Email</legend>
+                                    Prefix each line with <code>&gt; </code>&nbsp;<input type="button" class="btn btn-primary" onclick="addLeadingAngleBracketAndSpaceToEachLine(document.getElementById('text').value);" value="Quote" />
+                                </fieldset>
 
                             </div>
                         </div>

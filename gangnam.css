@@ -84,7 +84,26 @@ input, textarea
     background-color: #113355;
 }
 
-.well
+.well 
 {
     background-color: #113355;
+}
+
+legend 
+{
+    width: inherit;
+    border-style: none;
+    border-width: 0;
+    line-height: 20px;
+    margin-bottom: 0;
+    margin-left: 5px;
+    padding-left: 3px;
+    padding-right: 3px;
+
+    /* Same as h4 */
+    color: #7799bb;
+    font-family: "Verdana",sans-serif;
+    font-size: 13px;
+    letter-spacing: 2.7px;
+    text-transform: uppercase;
 }
