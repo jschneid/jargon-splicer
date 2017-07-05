@@ -240,7 +240,11 @@ function convertCommaSeparatedParamListToCStyleDebugOutputString(input) {
     var result = "";
 
     for (var i = 0; i < csvArray.length; i++) {
-        result = result + csvArray[i] + ': [" + ' + csvArray[i] + ' + "]'
+
+        var wordArray = csvArray[i].match(/\S+/g);
+        var variableName = wordArray[wordArray.length - 1];
+
+        result = result + variableName + ': [" + ' + variableName + ' + "]'
 
         if (i < csvArray.length - 1) {
             result = result + ', ';
