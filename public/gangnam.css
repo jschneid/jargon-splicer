@@ -79,6 +79,11 @@ input, textarea
   color: #000;
 }
 
+.error
+{
+    border-color:red; border-width:2px; border-style:solid;
+}
+
 .panel 
 {
     background-color: #113355;

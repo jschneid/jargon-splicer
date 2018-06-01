@@ -1,4 +1,4 @@
 # jargon-splicer
-Text statistics and manipulation via plain JavaScript
+Text statistics and manipulation via JavaScript/React
 
-Currently published at: http://www.jonschneider.com/jsjsjs.html
+Currently published at: http://www.jonschneider.com/jsjsjs/
