@@ -18,7 +18,12 @@ export default class StatisticsDisplay extends React.Component {
     if (this.props.text.trim().length === 0) {
       return 0;
     }
-    var wordCount = this.props.text.match(/(\w+)/g).length;
+    const words = this.props.text.match(/(\w+)/g);
+    if (words == null)
+    {
+      return 0;
+    }
+    const wordCount = this.props.text.match(/(\w+)/g).length;
     return wordCount;
   }
 
