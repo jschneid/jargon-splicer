@@ -6,9 +6,12 @@ import Tools from './Tools.js';
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      text: ''
-    };
+
+    // This is the "Controlled component" pattern: https://reactjs.org/docs/forms.html
+    this.state = { text: '' };
+
+    this.editorRef = React.createRef();
+    this.selectNeeded = false;
   }
 
   handleChange(e) {
@@ -17,12 +20,26 @@ export default class App extends React.Component {
 
   setText(text) {
     this.setState({text: text});
+
+    this.selectNeeded = true;
+  }
+
+  componentDidUpdate() {
+    if (this.selectNeeded) {
+      this.editorRef.current.focus();
+      this.editorRef.current.select();
+      this.selectNeeded = false;
+    }
   }
 
   render() {
     return (
       <div>
-        <Editor text={this.state.text} onChange={(e) => this.handleChange.bind(this)} />
+        <Editor 
+          text={this.state.text} 
+          onChange={(e) => this.handleChange.bind(this)} 
+          editorRef={this.editorRef}
+        />
         <div className="row">
           <div className="col-md-3">
             <StatisticsDisplay text={this.state.text} />

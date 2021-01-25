@@ -8,7 +8,9 @@ export default class Editor extends React.Component {
         onChange={this.props.onChange()} 
         rows='6' 
         style={{minWidth: '100%'}} 
-        placeholder='Paste or enter text here...'>
+        placeholder='Paste or enter text here...'
+        ref={this.props.editorRef}
+        autoFocus>
       </textarea>
     );
   }
