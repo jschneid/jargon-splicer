@@ -10,6 +10,7 @@ export default class App extends React.Component {
     // This is the "Controlled component" pattern: https://reactjs.org/docs/forms.html
     this.state = { text: '' };
 
+
     this.editorRef = React.createRef();
     this.selectNeeded = false;
   }
@@ -42,7 +43,7 @@ export default class App extends React.Component {
         />
         <div className="row">
           <div className="col-md-3">
-            <StatisticsDisplay text={this.state.text} />
+            <StatisticsDisplay text={this.state.text} editorRef={this.editorRef} />
           </div>
           <div className="col-md-9">
             <Tools text={this.state.text} setText={(text) => this.setText.bind(this)} />
