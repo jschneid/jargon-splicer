@@ -79,6 +79,11 @@ input, textarea
   color: #000;
 }
 
+.wide
+{
+    width: 100%;
+}
+
 .error
 {
     border-color:red; border-width:2px; border-style:solid;

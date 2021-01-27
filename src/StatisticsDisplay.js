@@ -94,7 +94,7 @@ export default class StatisticsDisplay extends React.Component {
 
           <fieldset className="well well-sm">
             <legend>Substring</legend>
-            <input type="text" value={this.state.searchString} onChange={(e) => this.handleSearchStringChange(e)} />
+            <input type="text" placeholder="Search..." value={this.state.searchString} onChange={(e) => this.handleSearchStringChange(e)} className="wide" />
             <br />
             Occurrence count: <strong><span className="big">{this.getOccurrenceCount()}</span></strong>
             <br />
