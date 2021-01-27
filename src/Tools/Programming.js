@@ -147,46 +147,6 @@ export default class Programming extends React.Component {
     this.props.setText(result);
   }
 
-  githubDiffKeepLeftHandSide() {
-    this.githubDiffKeepLinesWith('-');
-  }
-
-  githubDiffKeepRightHandSide() {
-    this.githubDiffKeepLinesWith('+');
-  }
-
-  githubDiffKeepLinesWith(marker) {
-    const lines = this.props.text.split(/\r?\n/);
-    const resultLines = [];
-
-    for (let line = 0; line < lines.length; line++) {
-      if (lines[line][0] === '+' || lines[line][0] === '-') {
-        if (lines[line][0] === marker) {
-          // This is a line we want to keep, with the marker removed
-          const lineWithMarkerRemoved = lines[line].substring(1);
-          resultLines.push(lineWithMarkerRemoved);
-        }
-        else {
-          // This is a line from the other side of the diff; ignore it
-        }
-      }
-      else {
-        // This is an unchanged line. Add it; but don't add the next line if it is identical
-        const lineWithPaddingRemoved = lines[line].substring(1);
-        resultLines.push(lineWithPaddingRemoved);
-
-
-        if (line < (lines.length - 1) && lines[line] === lines[line + 1]) {
-          // The next line is the same, skip it.
-          line++;
-        }
-      }
-    }
-
-    const result = resultLines.join('\n');
-    this.props.setText(result);
-  }
-
   render() {
     return (
       <fieldset className="well well-sm">
@@ -206,12 +166,6 @@ export default class Programming extends React.Component {
         Convert CSV param list to C-style debug output string
         <input type="button" className="btn btn-primary" onClick={() => this.convertCommaSeparatedParamListToCStyleDebugOutputString()} value="Convert" />
         </p>
-
-        GitHub.com diff: Clean text from clipboard copy&nbsp;
-
-        <input type="button" className="btn btn-primary" onClick={() => this.githubDiffKeepLeftHandSide()} value="&#x2796; Get Left-Hand Side" />&nbsp;
-        <input type="button" className="btn btn-primary" onClick={() => this.githubDiffKeepRightHandSide()} value="&#x2795; Get Right-Hand Side" />
-
       </fieldset>
     );
   }
