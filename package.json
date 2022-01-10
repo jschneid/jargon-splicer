@@ -13,7 +13,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "homepage": "http://www.jonschneider.com/jsjsjs",
+  "homepage": "https://www.jonschneider.com/jsjsjs/",
   "browserslist": {
     "production": [
       ">0.2%",
