@@ -10,7 +10,6 @@ export default class App extends React.Component {
     // This is the "Controlled component" pattern: https://reactjs.org/docs/forms.html
     this.state = { text: '' };
 
-
     this.editorRef = React.createRef();
     this.selectNeeded = false;
   }
