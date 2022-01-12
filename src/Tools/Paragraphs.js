@@ -15,6 +15,11 @@ export default class Paragraphs extends React.Component {
     this.props.setText(result);
   }
 
+  duplicateNewlines() {
+    const result = this.props.text.replaceAll('\n', '\n\n');
+    this.props.setText(result);
+  }
+
   // Trims leading and trailing whitespace from each line of the text.
   trimLines() {
     let arrayOfLines = this.props.text.split(/\r?\n/);
@@ -49,6 +54,9 @@ export default class Paragraphs extends React.Component {
       </p>
       <p>
           Remove all blank lines <input type="button" className="btn btn-primary" onClick={() => this.removeBlankLines()} value="Remove" />
+      </p>
+      <p>
+        Duplicate newlines <input type="button" className="btn btn-primary" onClick={() => this.duplicateNewlines()} value="Duplicate" />
       </p>
       <p>
           Trim each line <input type="button" className="btn btn-primary" onClick={() => this.trimLines()} value="Trim" />
