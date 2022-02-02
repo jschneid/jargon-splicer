@@ -6,7 +6,7 @@ Currently published at: http://www.jonschneider.com/jsjsjs/
 
 ## Running locally
 
-`npm run`
+`npm run start`
 
 ## Publishing to production
 
