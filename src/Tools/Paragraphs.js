@@ -44,24 +44,33 @@ export default class Paragraphs extends React.Component {
     var result = arrayOfLines.join('\n');
     this.props.setText(result);
   }
+
+  collapseWhitespace() {
+    // https://stackoverflow.com/a/22622331/12484
+    const result = this.props.text.split(' ').filter(n => n).join(' '); 
+    this.props.setText(result);
+  }
  
   render() {
     return (
    <fieldset className="well well-sm">
       <legend>Paragraphs</legend>
       <p>
-          Remove duplicate blank lines <input type="button" className="btn btn-primary" onClick={() => this.removeDuplicateBlankLines()} value="Remove" />
+        Remove duplicate blank lines <input type="button" className="btn btn-primary" onClick={() => this.removeDuplicateBlankLines()} value="Remove" />
       </p>
       <p>
-          Remove all blank lines <input type="button" className="btn btn-primary" onClick={() => this.removeBlankLines()} value="Remove" />
+        Remove all blank lines <input type="button" className="btn btn-primary" onClick={() => this.removeBlankLines()} value="Remove" />
       </p>
       <p>
         Duplicate newlines <input type="button" className="btn btn-primary" onClick={() => this.duplicateNewlines()} value="Duplicate" />
       </p>
       <p>
-          Trim each line <input type="button" className="btn btn-primary" onClick={() => this.trimLines()} value="Trim" />
+        Trim each line <input type="button" className="btn btn-primary" onClick={() => this.trimLines()} value="Trim" />
       </p>
-      Join adjacent lines <input type="button" className="btn btn-primary" onClick={() => this.joinAdjacentLines()} value="Join" />
+      <p>
+        Join adjacent lines <input type="button" className="btn btn-primary" onClick={() => this.joinAdjacentLines()} value="Join" />
+      </p>
+        Remove duplicate whitespace <input type="button" className="btn btn-primary" onClick={() => this.collapseWhitespace()} value="Collapse" />
     </fieldset>
     );
   }
