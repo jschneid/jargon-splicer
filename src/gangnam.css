@@ -94,6 +94,12 @@ input, textarea
     background-color: #113355;
 }
 
+.small-caps
+{
+    font-variant: small-caps;
+    font-size: x-small;
+}
+
 .well 
 {
     background-color: #113355;
