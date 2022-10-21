@@ -2,7 +2,7 @@
 
 Text statistics and manipulation via JavaScript/React
 
-Currently published at: http://www.jonschneider.com/jsjsjs/
+Currently published at: https://www.jonschneider.com/jsjsjs/
 
 ## Running locally
 
