@@ -34,6 +34,12 @@ export default class Lists extends React.Component {
     this.props.setText(sortedCsv);
   }
 
+  replaceCommaWithNewLine() {
+    let result = this.props.text.trim();
+    result = result.replaceAll(',', '\n');
+    this.props.setText(result);
+  }
+
   quoteListItems() {
     const lines = this.props.text.split(/\r?\n/);
     const quotationMark = this.state.quotationMark;
@@ -58,11 +64,16 @@ export default class Lists extends React.Component {
       <fieldset className="well well-sm">
         <legend>Lists</legend>
         <p>
-          Convert whitespace-separated to comma-separated
+          Convert whitespace-separated to comma-separated{' '}
           <input type="button" className="btn btn-primary" onClick={() => this.replaceWhitespaceWithComma()} value="Convert" />
         </p>
         <p>
-          Sort comma-separated <input type="button" className="btn btn-primary" onClick={() => this.sortCsv()} value="Sort" />
+          Sort comma-separated{' '}
+          <input type="button" className="btn btn-primary" onClick={() => this.sortCsv()} value="Sort" />
+        </p>
+        <p>
+          Convert comma-separated to newline-separated{' '}
+          <input type="button" className="btn btn-primary" onClick={() => this.replaceCommaWithNewLine()} value="Convert" />
         </p>
         Surround each item with{' '}
         <select value={this.state.quotationMark} onChange={this.handleQuotationMarkChange}>
