@@ -1,6 +1,10 @@
 import React from 'react';
 
 export default class Lists extends React.Component {
+  constructor(props) {
+    super(props);
+    this.quotationMarkRef = React.createRef();
+  }
 
   // Adapted from http://stackoverflow.com/a/1144788/12484
   escapeRegExp(str) {
@@ -27,15 +31,38 @@ export default class Lists extends React.Component {
     this.props.setText(sortedCsv);
   }
 
+  quoteListItems() {
+    const lines = this.props.text.split(/\r?\n/);
+    const quotationMark = this.quotationMarkRef.current.value;
+    lines.forEach(function (line, index, lines) {
+      line = line.trim();
+      if (line !== '') { 
+        line = line.replaceAll(',', (quotationMark + ',' + quotationMark));
+        line = quotationMark + line + quotationMark;
+        lines[index] = line;
+      }
+    });
+    const result = lines.join('\n');
+    this.props.setText(result);
+  }
+
   render() {
     return (
       <fieldset className="well well-sm">
         <legend>Lists</legend>
         <p>
-          Convert whitespace-separated string to comma-separated
+          Convert whitespace-separated to comma-separated
           <input type="button" className="btn btn-primary" onClick={() => this.replaceWhitespaceWithComma()} value="Convert" />
         </p>
-        Sort comma-separated <input type="button" className="btn btn-primary" onClick={() => this.sortCsv()} value="Sort" />
+        <p>
+          Sort comma-separated <input type="button" className="btn btn-primary" onClick={() => this.sortCsv()} value="Sort" />
+        </p>
+        Surround each item with{' '}
+        <select ref={this.quotationMarkRef}>
+          <option value="'">'</option>
+          <option value='"'>"</option>
+        </select>{' '}
+        <input type="button" className="btn btn-primary" onClick={() => this.quoteListItems()} value="Quote" />
        </fieldset>
     );
   }
