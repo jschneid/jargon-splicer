@@ -4,9 +4,17 @@ export default class Urls extends React.Component {
   removeAnalyticsCruft() {
     let text = this.props.text.trim();
 
-    text = this.undoGoogleAnalytics(text);
-   
-    this.props.setText(text);
+    let sansGoogleAnalytics = this.undoGoogleAnalytics(text);
+    if (sansGoogleAnalytics !== text) {
+      this.props.setText(sansGoogleAnalytics);
+      return;
+    }
+
+    let extractedUrl = this.extractRealUrlFromClickthrough(text);
+    if (extractedUrl !== text) {
+      this.props.setText(extractedUrl);
+      return;
+    }
   }
 
   // Clean up URLs like
@@ -26,6 +34,15 @@ export default class Urls extends React.Component {
       text = decodeURIComponent(text);
 
       return text;
+  }
+
+  // Extract the "real" URL from tracking/redirecting URLs like:
+  // https://www.jdoqocy.com/click-4485850-12465255?sid=3b92102eaf1411ed941312b0c970275b0INT&url=https%3A%2F%2Feyedictive.com%2Fproduct%2Fgunnar-vertex-onyx-rectangle-gaming-computer-glasses%2F
+  extractRealUrlFromClickthrough(text) {
+    let decoded = decodeURIComponent(text);
+    let nonLeadingHttpsIndex = decoded.indexOf('https://', 8);
+    let nonLeadingUrl = decoded.substring(nonLeadingHttpsIndex);
+    return nonLeadingUrl;
   }
 
   render() {
