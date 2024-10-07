@@ -82,6 +82,7 @@ input, textarea
 {
   background-color:#EEE;
   color: #000;
+  font-family: 'Inconsolata', 'Consolas', 'Lucida Console', monospace;
 }
 
 .wide
