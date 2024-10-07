@@ -78,7 +78,7 @@ h4
     margin-bottom: 5px;
 }
 
-input, textarea
+input:not([type]), input[type="text"], textarea
 {
   background-color:#EEE;
   color: #000;
