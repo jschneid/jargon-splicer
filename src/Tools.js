@@ -3,7 +3,6 @@ import Email from './Tools/Email.js';
 import Lists from './Tools/Lists.js';
 import Paragraphs from './Tools/Paragraphs.js';
 import Programming from './Tools/Programming.js';
-import Urls from './Tools/Urls.js'
 
 export default class Tools extends React.Component {
   render() {
@@ -21,7 +20,6 @@ export default class Tools extends React.Component {
             <div className="col-md-6">
               <Programming text={this.props.text} setText={this.props.setText()} />
               <Email text={this.props.text} setText={this.props.setText()} />
-              <Urls text={this.props.text} setText={this.props.setText()} />
             </div>
           </div>
         </div>

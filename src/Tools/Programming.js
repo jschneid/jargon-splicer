@@ -163,8 +163,8 @@ export default class Programming extends React.Component {
           <input type="button" className="btn btn-primary" onClick={() => this.convertToCSharpDocComment()} value="Convert" />
         </p>
         <p>
-        Convert CSV param list to C-style debug output string
-        <input type="button" className="btn btn-primary" onClick={() => this.convertCommaSeparatedParamListToCStyleDebugOutputString()} value="Convert" />
+          Convert CSV param list to C-style debug output string
+          <input type="button" className="btn btn-primary" onClick={() => this.convertCommaSeparatedParamListToCStyleDebugOutputString()} value="Convert" />
         </p>
       </fieldset>
     );
