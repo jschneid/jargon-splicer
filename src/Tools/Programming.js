@@ -31,6 +31,44 @@ export default class Programming extends React.Component {
     return n !== Infinity && String(n) === str && n >= 0;
   }
 
+  // Reformat the janky text that are the typical result of copying multiple lines out of a 
+  // Claude Code terminal (as of May 2026). e.g.: Hard line breaks where lines wrap in the terminal; 
+  // 3-space gaps between words in places where those breaks were after manually removing them.
+  fixClaudeCopiedText() {
+    const arrayOfLines = this.props.text.split(/\r?\n/);
+
+    // Remove 2-space paragraph indenting.
+    // (Make an effort to NOT do this for stuff that isn't paragraphs.)
+    for (let lineIndex = 0; lineIndex < arrayOfLines.length; lineIndex++) {
+      if (arrayOfLines[lineIndex].startsWith('  ') 
+        && !arrayOfLines[lineIndex].startsWith('   ') 
+        && !arrayOfLines[lineIndex].startsWith('  ⎿')) {
+          arrayOfLines[lineIndex] = arrayOfLines[lineIndex].substring(2);
+      } 
+    }
+
+    // Join lines that were broken by Claude's terminal but are actually part of the same paragraph.
+    let inCodeBlock = false;
+    for (let lineIndex = arrayOfLines.length - 1; lineIndex > 0; lineIndex--) {
+      if (arrayOfLines[lineIndex].trim().startsWith('```')) {
+        inCodeBlock = !inCodeBlock;
+      }
+
+        if (arrayOfLines[lineIndex].trim().length > 0 
+          && arrayOfLines[lineIndex - 1].trim().length > 0 
+          && arrayOfLines[lineIndex].trim().charAt(0) !== '⎿'
+          && arrayOfLines[lineIndex].slice(0, 4) !== '    ' 
+          && !inCodeBlock
+        ) {
+            arrayOfLines[lineIndex - 1] = arrayOfLines[lineIndex - 1] + " " + arrayOfLines[lineIndex];
+            arrayOfLines.splice(lineIndex, 1);
+        }
+    }
+
+    var result = arrayOfLines.join('\n');
+    this.props.setText(result);
+  }
+
   stripAngleBracketTags() {
     let htmlDocument = document.implementation.createHTMLDocument().body;
     htmlDocument.innerHTML = this.props.text.trim();
@@ -151,6 +189,9 @@ export default class Programming extends React.Component {
     return (
       <fieldset className="well well-sm">
         <legend>Programming</legend>
+        <p>
+          Fix paragraphs copied from Claude Code terminal <input type="button" className="btn btn-primary" onClick={() => this.fixClaudeCopiedText()} value="Format" />
+        </p>
         <p>
           Strip HTML tags <input type="button" className="btn btn-primary" onClick={() => this.stripAngleBracketTags()} value="Strip" />
         </p>
