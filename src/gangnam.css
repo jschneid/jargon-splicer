@@ -129,3 +129,11 @@ legend
     letter-spacing: 2.7px;
     text-transform: uppercase;
 }
+
+.label
+{
+    /* Similar to h4 */
+    color: #7799bb;
+    font-family: "Verdana",sans-serif;
+    text-transform: uppercase;
+}

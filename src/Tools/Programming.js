@@ -40,7 +40,12 @@ export default class Programming extends React.Component {
     // Remove 2-space paragraph indenting.
     // (Make an effort to NOT do this for stuff that isn't paragraphs.)
     for (let lineIndex = 0; lineIndex < arrayOfLines.length; lineIndex++) {
-      if (arrayOfLines[lineIndex].startsWith('  ') 
+      // mid-paragraph text with a 2-space ident + a 1-space word break 
+      if (arrayOfLines[lineIndex].startsWith('   ') 
+        && !arrayOfLines[lineIndex].startsWith('    ')) {
+          arrayOfLines[lineIndex] = arrayOfLines[lineIndex].substring(3);
+      } 
+      else if (arrayOfLines[lineIndex].startsWith('  ') 
         && !arrayOfLines[lineIndex].startsWith('   ') 
         && !arrayOfLines[lineIndex].startsWith('  ⎿')) {
           arrayOfLines[lineIndex] = arrayOfLines[lineIndex].substring(2);
@@ -57,7 +62,8 @@ export default class Programming extends React.Component {
         if (arrayOfLines[lineIndex].trim().length > 0 
           && arrayOfLines[lineIndex - 1].trim().length > 0 
           && arrayOfLines[lineIndex].trim().charAt(0) !== '⎿'
-          && arrayOfLines[lineIndex].slice(0, 4) !== '    ' 
+          && arrayOfLines[lineIndex].slice(0, 4) !== '    '
+          && arrayOfLines[lineIndex].slice(0, 2) !== '- ' // bulleted list item 
           && !inCodeBlock
         ) {
             arrayOfLines[lineIndex - 1] = arrayOfLines[lineIndex - 1] + " " + arrayOfLines[lineIndex];
@@ -190,7 +196,9 @@ export default class Programming extends React.Component {
       <fieldset className="well well-sm">
         <legend>Programming</legend>
         <p>
-          Fix paragraphs copied from Claude Code terminal <input type="button" className="btn btn-primary" onClick={() => this.fixClaudeCopiedText()} value="Format" />
+          Fix ¶s copied from Claude Code terminal 
+          <span className="label">beta</span>
+          <input type="button" className="btn btn-primary" onClick={() => this.fixClaudeCopiedText()} value="Format" />
         </p>
         <p>
           Strip HTML tags <input type="button" className="btn btn-primary" onClick={() => this.stripAngleBracketTags()} value="Strip" />
